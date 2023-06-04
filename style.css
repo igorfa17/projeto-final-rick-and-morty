@@ -12,7 +12,7 @@ header {
     padding: 10px;
 }
 
-h1 {
+  h1 {
     font-weight: bold;
     color: #0e4f16;
     font-size:  60px;
@@ -22,13 +22,13 @@ h1 {
     font-family: Helvetica, sans-serif
 }
 
-h2 {
-    color: #24652c;
-}
+    h2 {
+        color: #24652c;
+    }
 
-h4{
-    margin-bottom: 15px;
-}
+    h4{
+        margin-bottom: 15px;
+    }
 
 input[type="text"] {
     padding: 10px;
@@ -90,9 +90,9 @@ li {
 }
 
 .image-before-footer {
-    text-align: center;
-    margin-top: 50px;
-    }
+text-align: center;
+margin-top: 50px;
+}
 
 .image-before-footer img {
 max-width: 30%;
@@ -103,7 +103,7 @@ height: 50%
     margin-bottom: 1em;
   }
 
-.logo img {
+  .logo img {
     height: 60px;
     width: 120px;
     padding: 0px;
@@ -124,17 +124,17 @@ height: 50%
     display: flex;
     flex-direction: column;
     padding: 10px;
-}
-
+  }
+  
 .separador {
     border: 1px solid green;
-}
+  }
 
 .card-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-} 
+  } 
 
 .search {
     display: flex;
@@ -146,7 +146,7 @@ height: 50%
 
 .search input {
     width: 40%;
-}
+  }
 
 #grey{
     color: #878787;
@@ -205,4 +205,3 @@ height: 50%
     margin-top: 10px;
     text-align: center;
 }
-

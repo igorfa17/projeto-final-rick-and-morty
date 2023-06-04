@@ -1,11 +1,5 @@
 {
-  "name": "projeto-final-rick-and-morty",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "repository": "https://github.com/igorfa17/projeto-final-rick-and-morty.git",
-  "author": "igorfa17 <igorfa17@gmail.com>",
   "dependencies": {
-    "node": "^20.2.0"
+    "rickmortyapi": "^2.3.0"
   }
 }
