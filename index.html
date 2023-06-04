@@ -46,6 +46,186 @@
     <span class="estilo"> DESENVOLVIDO POR <a href="https://github.com/igorfa17" target="_blank">IGOR FRANÇA</a> EM 2023</span>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    let currentPage = 1;
+    let totalPages = 1;
+
+    function getRandomCharacters() {
+  const apiUrl = 'https://rickandmortyapi.com/api/character/random';
+
+  axios.get(apiUrl)
+    .then(function (response) {
+      const character = response.data;
+      displayCharacters([character]); // Exibe o personagem em uma matriz para manter a consistência com a função displayCharacters
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+// Chame a função getRandomCharacters no carregamento inicial da página
+getRandomCharacters();
+
+
+
+    function searchCharacters() {
+        const searchInput = document.getElementById('searchInput').value;
+        const apiUrl = `https://rickandmortyapi.com/api/character?name=${searchInput}&page=${currentPage}`;
+
+        axios.get(apiUrl)
+            .then(function (response) {
+                const characters = response.data.results;
+                totalPages = response.data.info.pages;
+                displayCharacters(characters);
+                updateCounts();
+                updatePagination();
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    function displayCharacters(characters) {
+        const cardContainer = document.getElementById('cardContainer');
+        cardContainer.innerHTML = '';
+
+        characters.forEach(function (character) {
+            const card = document.createElement('article');
+            card.classList.add('card');
+
+            const image = document.createElement('img');
+            image.src = character.image;
+            image.alt = character.name;
+            card.appendChild(image);
+
+            const cardText = document.createElement('div');
+            cardText.classList.add('card-text');
+
+            const name = document.createElement('h2');
+            name.textContent = character.name;
+            cardText.appendChild(name);
+
+            const status = document.createElement('h4');
+            status.innerHTML = `<span class="circle ${getStatusColor(character.status)}"></span>${character.status} - ${character.species}`;
+            cardText.appendChild(status);
+
+            const lastLocationLabel = document.createElement('p');
+            lastLocationLabel.textContent = 'Última localização conhecida:';
+            cardText.appendChild(lastLocationLabel);
+
+            const lastLocation = document.createElement('p');
+            axios.get(character.location.url)
+                .then(function (response) {
+                    lastLocation.textContent = response.data.name;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            cardText.appendChild(lastLocation);
+
+            const lastSeenLabel = document.createElement('p');
+            lastSeenLabel.textContent = 'Visto a última vez em:';
+            cardText.appendChild(lastSeenLabel);
+
+            const lastSeen = document.createElement('p');
+            axios.get(character.episode[character.episode.length - 1])
+                .then(function (response) {
+                    lastSeen.textContent = response.data.name;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            cardText.appendChild(lastSeen);
+
+            card.appendChild(cardText);
+            cardContainer.appendChild(card);
+        });
+    }
+
+    function updateCounts() {
+  axios.all([
+    axios.get('https://rickandmortyapi.com/api/character'),
+    axios.get('https://rickandmortyapi.com/api/location'),
+    axios.get('https://rickandmortyapi.com/api/episode')
+  ])
+    .then(axios.spread(function (characterResponse, locationResponse, episodeResponse) {
+      const characterCount = characterResponse.data.info.count;
+      const locationCount = locationResponse.data.info.count;
+      const episodeCount = episodeResponse.data.info.count;
+
+      document.getElementById('characterCount').textContent = `PERSONAGENS: ${characterCount}`;
+      document.getElementById('locationCount').textContent = `LOCALIZAÇÕES: ${locationCount}`;
+      document.getElementById('episodeCount').textContent = `EPISÓDIOS: ${episodeCount}`;
+    }))
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+// Chame a função updateCounts no carregamento inicial da página
+updateCounts();
+
+
+    function searchLocations() {
+        axios.get('https://rickandmortyapi.com/api/location')
+            .then(function (response) {
+                const locationCount = response.data.info.count;
+                document.getElementById('locationCount').textContent = `LOCALIZAÇÕES: ${locationCount}`;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    function getStatusColor(status) {
+        switch (status) {
+            case 'Alive':
+                return 'green';
+            case 'Dead':
+                return 'red';
+            default:
+                return 'gray';
+        }
+    }
+
+    function goToPage(page) {
+        if (page >= 1 && page <= totalPages) {
+            currentPage = page;
+            searchCharacters();
+        }
+    }
+
+    function updatePagination() {
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+
+        if (totalPages > 1) {
+            const previousButton = createPaginationButton('Anterior', currentPage - 1);
+            pagination.appendChild(previousButton);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = createPaginationButton(i, i);
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                pagination.appendChild(pageButton);
+            }
+
+            const nextButton = createPaginationButton('Próxima', currentPage + 1);
+            pagination.appendChild(nextButton);
+        }
+    }
+
+    function createPaginationButton(text, page) {
+        const button = document.createElement('button');
+        button.textContent = text;
+        button.addEventListener('click', function () {
+            goToPage(page);
+        });
+        return button;
+    }
+</script>
 
 </body>
 </html>
