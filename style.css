@@ -31,9 +31,8 @@ a{
     font-family: Helvetica, sans-serif    
 }
 
-
 h1 {
-    transition: font-size 4s ease;
+    transition: font-size 0.5s ease;
   }
   
   h1:hover {
@@ -51,7 +50,7 @@ h1 {
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: textclip 2s linear infinite;
+    animation: gradient 2s linear infinite;
     font-size: 80px;
 
   }
@@ -141,7 +140,7 @@ li {
 
 }
 
-@keyframes textclip {
+@keyframes gradient {
   to {
     background-position: 200% center;
   }
