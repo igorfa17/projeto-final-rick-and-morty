@@ -24,6 +24,7 @@ Este é um projeto de uma página web que utiliza a API de Rick and Morty para b
 
 1. Faça o download dos arquivos deste repositório.
 2. Abra o arquivo `index.html` em um navegador web.
+3. Ou acesse o link ao lado que irá direcionar para a aplicação no Vercel. https://projeto-final-rick-and-morty.vercel.app/
 
 ## Autor
 
